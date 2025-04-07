@@ -16,9 +16,13 @@ pipeline {
                     echo 'Building the machine...'
                     // Инициализируем nvm
                     sh '''
+                        echo "Checking NVM_DIR..."
                         export NVM_DIR="$HOME/.nvm"
+                        echo "NVM_DIR: $NVM_DIR"
                         [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                        echo "Node version:"
                         node -v  # Вывод версии Node.js
+                        echo "NPM version:"
                         npm -v   # Вывод версии npm
                     '''
                     // Добавьте здесь команды для сборки вашей машины
@@ -30,8 +34,11 @@ pipeline {
                 script {
                     echo 'Installing dependencies...'
                     sh '''
+                        echo "Checking NVM_DIR..."
                         export NVM_DIR="$HOME/.nvm"
+                        echo "NVM_DIR: $NVM_DIR"
                         [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                        echo "Installing npm packages..."
                         npm install
                     '''
                 }
@@ -42,8 +49,11 @@ pipeline {
                 script {
                     echo 'Running tests...'
                     sh '''
+                        echo "Checking NVM_DIR..."
                         export NVM_DIR="$HOME/.nvm"
+                        echo "NVM_DIR: $NVM_DIR"
                         [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                        echo "Running tests..."
                         npx wdio run ./wdio.conf.js
                     '''
                 }
