@@ -23,10 +23,7 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                script {
-                    echo 'Installing dependencies...'
-                    sh 'npm install'
-                }
+                
             }
         }
         stage('Run Tests') {
