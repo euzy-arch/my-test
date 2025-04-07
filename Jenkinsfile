@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'webdriverio-test' // Используйте имя вашего Docker-образа
-            args '-v /var/run/docker.sock:/var/run/docker.sock' // Доступ к Docker-сокету
-        }
-    }
+    agent any // Или используйте label, если у вас есть конкретный узел
     stages {
         stage('Build') {
             steps {
@@ -17,15 +12,16 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // Запуск тестов
-                    sh 'docker run --rm webdriverio-test' // Запуск тестов в контейнере
+                    // Запуск тестов в Docker-контейнере
+                    docker.image('webdriverio-test').inside {
+                        sh 'npm test' // Замените на вашу команду для запуска тестов
+                    }
                 }
             }
         }
     }
     post {
         always {
-            // Шаги, которые выполняются всегда после завершения pipeline
             echo 'Тесты завершены.'
         }
     }
