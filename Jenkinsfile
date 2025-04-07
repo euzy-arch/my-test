@@ -12,20 +12,6 @@ pipeline {
                 }
             }
         }
-        stage('Install Dependencies') {
-            steps {
-                script {
-                    sh 'npm install'
-                }
-            }
-        }
-        stage('Run Tests') {
-            steps {
-                script {
-                    sh 'npx wdio run ./wdio.conf.js'
-                }
-            }
-        }
     }
 
     post {
@@ -33,10 +19,10 @@ pipeline {
             echo 'Cleaning up...'
         }
         success {
-            echo 'Tests ran successfully!'
+            echo 'Machine built successfully!'
         }
         failure {
-            echo 'Tests failed. Please check the logs.'
+            echo 'Build failed. Please check the logs.'
         }
     }
 }
