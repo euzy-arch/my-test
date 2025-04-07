@@ -2,37 +2,38 @@ pipeline {
     agent any
 
     stages {
-        stage('Install Dependencies') {
+        stage('Checkout') {
             steps {
                 script {
-                    echo 'Installing Yarn...'
-                    // Убедитесь, что Yarn установлен, если нет, установите его
-                    sh 'npm install --global yarn' // Устанавливаем Yarn, если он еще не установлен
-
-                    echo 'Installing project dependencies...'
-                    // Устанавливаем зависимости проекта
-                    sh 'yarn install'
+                    echo 'Cloning the repository...'
+                    git url: 'https://github.com/euzy-arch/my-test.git', branch: 'master'
                 }
             }
         }
-
-        stage('Run Tests') {
-            steps {
-                script {
-                    echo 'Running tests...'
-                    // Запускаем тесты
-                    sh 'yarn test' // Замените на вашу команду для запуска тестов
-                }
-            }
-        }
-
         stage('Build Machine') {
             steps {
                 script {
                     echo 'Building the machine...'
-                    // Здесь вы можете добавить команды для сборки вашей машины
-                    // Например, если вы используете Docker:
-                    // sh 'docker build -t my-image .'
+                    // Вывод информации о Node.js и npm
+                    sh 'node -v'
+                    sh 'npm -v'
+                    // Добавьте здесь команды для сборки вашей машины
+                }
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    echo 'Installing dependencies...'
+                    sh 'npm install'
+                }
+            }
+        }
+        stage('Run Tests') {
+            steps {
+                script {
+                    echo 'Running tests...'
+                    sh 'npx wdio run ./wdio.conf.js'
                 }
             }
         }
@@ -43,10 +44,11 @@ pipeline {
             echo 'Cleaning up...'
         }
         success {
-            echo 'Machine built successfully!'
+            echo 'Pipeline completed successfully!'
         }
         failure {
-            echo 'Build failed. Please check the logs.'
+            echo 'Pipeline failed. Please check the logs.'
         }
     }
 }
+
