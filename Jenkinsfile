@@ -2,6 +2,23 @@ pipeline {
     agent any
 
     stages {
+        stage('Check Node.js and npm') {
+            steps {
+                script {
+                    // Проверка, установлены ли Node.js и npm
+                    sh 'node -v'
+                    sh 'npm -v'
+                }
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    // Установка зависимостей проекта
+                    sh 'npm install'
+                }
+            }
+        }
         stage('Build Machine') {
             steps {
                 script {
