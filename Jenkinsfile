@@ -1,45 +1,32 @@
 pipeline {
-    agent any
-
-    stages {
-        stage('Checkout') {
-            steps {
-                script {
-                    echo 'Cloning the repository...'
-                    git url: 'https://github.com/euzy-arch/my-test.git', branch: 'master'
-                }
-            }
+    agent {
+        docker {
+            image 'webdriverio-test' // Используйте имя вашего Docker-образа
+            args '-v /var/run/docker.sock:/var/run/docker.sock' // Доступ к Docker-сокету
         }
-        stage('Build Machine') {
+    }
+    stages {
+        stage('Build') {
             steps {
                 script {
-                    echo 'Building the machine...'
-                    // Здесь вы можете добавить команды для сборки вашей машины
+                    // Сборка Docker-образа
+                    sh 'docker build -t webdriverio-test .' // Убедитесь, что вы находитесь в правильной директории
                 }
             }
         }
         stage('Run Tests') {
             steps {
                 script {
-                    echo 'Running tests...'
-                    // Запускаем тесты WebdriverIO
-                    // Убедитесь, что Node.js и все зависимости уже установлены в вашей среде
-                    sh 'npx wdio run ./wdio.conf.js'
+                    // Запуск тестов
+                    sh 'docker run --rm webdriverio-test' // Запуск тестов в контейнере
                 }
             }
         }
     }
-
     post {
         always {
-            echo 'Cleaning up...'
-        }
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed. Please check the logs.'
+            // Шаги, которые выполняются всегда после завершения pipeline
+            echo 'Тесты завершены.'
         }
     }
 }
-
