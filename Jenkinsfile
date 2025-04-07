@@ -18,20 +18,12 @@ pipeline {
                 }
             }
         }
-        stage('Install Dependencies') {
-            steps {
-                script {
-                    echo 'Installing dependencies...'
-                    // Убедитесь, что Node.js и npm уже установлены на вашей машине или контейнере
-                    sh 'npm install'
-                }
-            }
-        }
         stage('Run Tests') {
             steps {
                 script {
                     echo 'Running tests...'
                     // Запускаем тесты WebdriverIO
+                    // Убедитесь, что Node.js и все зависимости уже установлены в вашей среде
                     sh 'npx wdio run ./wdio.conf.js'
                 }
             }
@@ -50,3 +42,4 @@ pipeline {
         }
     }
 }
+
