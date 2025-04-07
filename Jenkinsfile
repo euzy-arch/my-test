@@ -2,6 +2,19 @@ pipeline {
     agent any
 
     stages {
+        stage('Setup nvm') {
+            steps {
+                script {
+                    // Загрузка nvm (проверьте путь к вашему nvm)
+                    sh '''
+                    export NVM_DIR="$HOME/.nvm"
+                    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+                    nvm install node # Устанавливаем последнюю версию Node.js
+                    nvm use node     # Используем установленную версию
+                    '''
+                }
+            }
+        }
         stage('Check Node.js and npm') {
             steps {
                 script {
