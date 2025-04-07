@@ -17,7 +17,7 @@ pipeline {
                     // Инициализируем nvm
                     sh '''
                         export NVM_DIR="$HOME/.nvm"
-                        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
                         node -v  # Вывод версии Node.js
                         npm -v   # Вывод версии npm
                     '''
@@ -31,7 +31,7 @@ pipeline {
                     echo 'Installing dependencies...'
                     sh '''
                         export NVM_DIR="$HOME/.nvm"
-                        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
                         npm install
                     '''
                 }
@@ -43,7 +43,7 @@ pipeline {
                     echo 'Running tests...'
                     sh '''
                         export NVM_DIR="$HOME/.nvm"
-                        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
                         npx wdio run ./wdio.conf.js
                     '''
                 }
