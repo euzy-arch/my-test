@@ -5,10 +5,16 @@ pipeline {
         stage('Build Machine') {
             steps {
                 script {
-                    // Здесь вы можете добавить команды для сборки вашей машины
                     echo 'Building the machine...'
-                    // Например, если вы используете Docker:
-                    // sh 'docker build -t my-image .'
+                    // Здесь добавьте команды для сборки вашей машины
+                }
+            }
+        }
+        stage('Run Tests') {
+            steps {
+                script {
+                    // Запуск тестов
+                    sh 'npx wdio run ./wdio.conf.js'
                 }
             }
         }
@@ -19,10 +25,10 @@ pipeline {
             echo 'Cleaning up...'
         }
         success {
-            echo 'Machine built successfully!'
+            echo 'Tests ran successfully!'
         }
         failure {
-            echo 'Build failed. Please check the logs.'
+            echo 'Tests failed. Please check the logs.'
         }
     }
 }
