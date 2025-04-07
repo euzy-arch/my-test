@@ -1,6 +1,8 @@
 
 exports.config = {
     //
+    hostname: 'localhost', // или '127.0.0.1'
+    port: 9515,
     // ====================
     // Runner Configuration
     // ====================
