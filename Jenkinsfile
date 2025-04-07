@@ -2,6 +2,16 @@ pipeline {
     agent any
 
     stages {
+        stage('Build Machine') {
+            steps {
+                script {
+                    // Здесь вы можете добавить команды для сборки вашей машины
+                    echo 'Building the machine...'
+                    // Например, если вы используете Docker:
+                    // sh 'docker build -t my-image .'
+                }
+            }
+        }
         stage('Install Dependencies') {
             steps {
                 script {
@@ -20,7 +30,6 @@ pipeline {
 
     post {
         always {
-            // Действия, которые выполняются всегда после завершения сборки
             echo 'Cleaning up...'
         }
         success {
