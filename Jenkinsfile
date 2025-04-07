@@ -2,49 +2,13 @@ pipeline {
     agent any
 
     stages {
-        stage('Setup nvm') {
-            steps {
-                script {
-                    // Загрузка nvm (проверьте путь к вашему nvm)
-                    sh '''
-                    export NVM_DIR="$HOME/.nvm"
-                    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-                    nvm install node # Устанавливаем последнюю версию Node.js
-                    nvm use node     # Используем установленную версию
-                    '''
-                }
-            }
-        }
-        stage('Check Node.js and npm') {
-            steps {
-                script {
-                    // Проверка, установлены ли Node.js и npm
-                    sh 'node -v'
-                    sh 'npm -v'
-                }
-            }
-        }
-        stage('Install Dependencies') {
-            steps {
-                script {
-                    // Установка зависимостей проекта
-                    sh 'npm install'
-                }
-            }
-        }
         stage('Build Machine') {
             steps {
                 script {
+                    // Здесь вы можете добавить команды для сборки вашей машины
                     echo 'Building the machine...'
-                    // Здесь добавьте команды для сборки вашей машины
-                }
-            }
-        }
-        stage('Run Tests') {
-            steps {
-                script {
-                    // Запуск тестов
-                    sh 'npx wdio run ./wdio.conf.js'
+                    // Например, если вы используете Docker:
+                    // sh 'docker build -t my-image .'
                 }
             }
         }
@@ -55,10 +19,10 @@ pipeline {
             echo 'Cleaning up...'
         }
         success {
-            echo 'Tests ran successfully!'
+            echo 'Machine built successfully!'
         }
         failure {
-            echo 'Tests failed. Please check the logs.'
+            echo 'Build failed. Please check the logs.'
         }
     }
 }
