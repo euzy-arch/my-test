@@ -14,17 +14,9 @@ pipeline {
             steps {
                 script {
                     echo 'Building the machine...'
-                    // Инициализируем nvm
-                    sh '''
-                        echo "Checking NVM_DIR..."
-                        export NVM_DIR="$HOME/.nvm"
-                        echo "NVM_DIR: $NVM_DIR"
-                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-                        echo "Node version:"
-                        node -v  # Вывод версии Node.js
-                        echo "NPM version:"
-                        npm -v   # Вывод версии npm
-                    '''
+                    // Вывод информации о Node.js и npm
+                    sh 'node -v'
+                    sh 'npm -v'
                     // Добавьте здесь команды для сборки вашей машины
                 }
             }
@@ -33,14 +25,7 @@ pipeline {
             steps {
                 script {
                     echo 'Installing dependencies...'
-                    sh '''
-                        echo "Checking NVM_DIR..."
-                        export NVM_DIR="$HOME/.nvm"
-                        echo "NVM_DIR: $NVM_DIR"
-                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-                        echo "Installing npm packages..."
-                        npm install
-                    '''
+                    sh 'npm install'
                 }
             }
         }
@@ -48,14 +33,7 @@ pipeline {
             steps {
                 script {
                     echo 'Running tests...'
-                    sh '''
-                        echo "Checking NVM_DIR..."
-                        export NVM_DIR="$HOME/.nvm"
-                        echo "NVM_DIR: $NVM_DIR"
-                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-                        echo "Running tests..."
-                        npx wdio run ./wdio.conf.js
-                    '''
+                    sh 'npx wdio run ./wdio.conf.js'
                 }
             }
         }
@@ -73,3 +51,4 @@ pipeline {
         }
     }
 }
+
